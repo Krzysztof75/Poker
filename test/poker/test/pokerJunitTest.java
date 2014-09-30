@@ -39,7 +39,7 @@ public class pokerJunitTest {
     
     @Before
     public void setUp() {
-          int [] score = new int []{1,0,0,1,1,1,1,0,2,1,0,0,0,0,0,0,0,0,0,};
+         
        
     }
     
@@ -89,6 +89,31 @@ public class pokerJunitTest {
         boolean result = Game.hasFlush(score);
         assertTrue("There should be a flush!", result);
     }
+    @Test
+    public void testhasStraight(){
+        
+        int [] score = new int [] {1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,2};
+        int [] score1 = new int [] {1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,2,1};
+        int [] score2 = new int [] {0,0,0,1,1,1,1,1,0,0,0,0,0,0,3,1,1};
+        int [] score3 = new int [] {1,0,0,0,0,0,0,0,0,1,1,1,1,0,2,2,1};
+        boolean result = Game.hasStraight(score);
+        boolean result1 = Game.hasStraight(score1);
+        boolean result2 = Game.hasStraight(score2);
+        boolean result3 = Game.hasStraight(score3);
+        assertTrue("There should be a straight!", result);
+        assertTrue("There should be a straight!", result1);
+        assertTrue("There should be a straight!", result2);
+        assertTrue("",!result3);
+    }
+    @Test
+    public void testhighestCard(){
+        int [] score = new int [] {0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,2};
+        boolean result = Game.highestCard(score) == 12;
+        assertTrue(result);
+               
+        } 
+    
+    
     /*
     @Test
     public void testHighestCard(){

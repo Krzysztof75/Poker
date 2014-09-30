@@ -18,7 +18,7 @@ public class Game {
     // this method will catch pair, 2 pairs, 3ofakind and 4ofakind
     public static void analize(Player p) {
         int[] check = checkedHand(p);
-
+        int high = highestCard(check);
         for (int a : check) {
             System.out.print(a + " ");
         }
@@ -30,9 +30,9 @@ public class Game {
         if (has2Pairs(check)) {
             System.out.println(p.getName() + " has two pairs!");
         }
-        for (int i = 0; i < check.length-4; i++) {
+        for (int i = 0; i < check.length - 4; i++) {
             if (check[i] == 2) {
-                System.out.print(fullSuit[i] + "'s ");
+                System.out.println(fullSuit[i] + "'s ");
             }
         }
         if (hasThree(check) && !hasPair(check)) {
@@ -45,37 +45,37 @@ public class Game {
             System.out.println(p.getName() + " has a four of a kind!");
         }
         if (hasFlush(check)) {
-            if(highestCard(p).getValue().equals("A"))
+            if (highestCard(check)==12) {
                 System.out.println("You have a Royal Flush!!!");
-            else
-            System.out.println(p.getName() + " has a flush!");
+            } else {
+                System.out.println(p.getName() + " has a flush!");
+            }
         }
-        if (hasStraight(p)) {
+        if (hasStraight(check)) {
             System.out.println(p.getName() + " has straight!");
         }
         if (!hasPair(check) && !has2Pairs(check) && !hasThree(check)
                 && !hasFullHouse(check) && !hasFour(check) && !hasFlush(check)
-                && !hasStraight(p)) {
-            System.out.print("Your highest card ");
-            highestCard(p).showCard();
-        }
-            
-           
-            
-    }
-/*
-    public static void analize(Player p1, Player p2) {
-
-        analize(p1);
-        analize(p2);
-
-        int[] p1hand = checkedHand(p1);
-        int[] p2hand = checkedHand(p2);
-        for (int i = 0; i < checkedHand(p1).length; i++) {
+                && !hasStraight(check)) {
+            System.out.print("Your highest card " + fullSuit[high]);
             
         }
+
     }
-*/
+    /*
+     public static void analize(Player p1, Player p2) {
+
+     analize(p1);
+     analize(p2);
+
+     int[] p1hand = checkedHand(p1);
+     int[] p2hand = checkedHand(p2);
+     for (int i = 0; i < checkedHand(p1).length; i++) {
+            
+     }
+     }
+     */
+
     private static int[] checkedHand(Player p) {
 
         int[] counts = new int[17]; // array to store info about the hand
@@ -145,7 +145,6 @@ public class Game {
     }
 
     // the sum equals 2 if there is only one pair in the player's hand
-
     public static boolean hasPair(int[] h) {
         for (int i = 0; i < 13; i++) {
             if (h[i] == 2 && !has2Pairs(h)) {
@@ -156,7 +155,6 @@ public class Game {
     }
 
     // count will increase by one each time there is a pair
-
     public static boolean has2Pairs(int[] h) {
         int count = 0;
         for (int i = 0; i < 13; i++) {
@@ -209,50 +207,39 @@ public class Game {
     }
 
     // the hand has to be sorted prior to running this method
-
-    public static boolean hasStraight(Player p) {
+    public static boolean hasStraight(int[] h) {
         int index = -1;
-        for (int i = 0; i < fullSuit.length; i++) {
-            if (fullSuit[i].equals(p.hand[0].getValue())) {
+        for (int i = 0; i < h.length; i++) {
+            if (h[i] == 1) {
                 index = i;
-
+                break;
             }
         }
         if (index < 8 && index > 0) {
-            return (p.hand[1].getValue().equals(fullSuit[index + 1])
-                    && p.hand[2].getValue().equals(fullSuit[index + 2])
-                    && p.hand[3].getValue().equals(fullSuit[index + 3])
-                    && p.hand[4].getValue().equals(fullSuit[index + 4]));
+            return (h[index] == h[index + 1] && h[index] == h[index + 2] && h[index]
+                    == h[index + 3] && h[index] == h[index + 4]);
 
         } else if (index == 0) {
 
-            return (p.hand[1].getValue().equals(fullSuit[1])
-                    && p.hand[2].getValue().equals(fullSuit[2])
-                    && p.hand[3].getValue().equals(fullSuit[3])
-                    && p.hand[4].getValue().equals(fullSuit[12]));
+            return (h[index] == h[index + 1] && h[index] == h[index + 2] && h[index]
+                    == h[index + 3] && (h[index] == h[index + 4] || h[index] == h[index + 12]));
         } else {
             return false;
         }
     }
 
     // will compare hand to the fullSuit and return highest index
-
-    public static Card highestCard(Player p) {
+    public static int highestCard(int[] check) {
 
         int max = 0;
-        Card highCard = null;
-        for (int i = 0; i < fullSuit.length; i++) {
-            for (Card hand : p.hand) {
-                if (fullSuit[i].equals(hand.getValue())) {
-                    if (max < i) {
-                        max = i;
-                        highCard = hand;
-                    }
-                }
+        for (int i = 12; i >= 0; i--) {
+            if (check[i] == 1) {
+                max = i;
+                break;
             }
 
         }
-        return highCard;
+        return max;
 
     }
 

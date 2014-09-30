@@ -90,7 +90,7 @@ public class PokerRunTest {
                 n++;
             }
             for (int i = 0; i < pl; i++) {
-                System.out.println(players[i].getName());
+                System.out.println("\n" + players[i].getName());
                 players[i].showHand();
                 players[i].sortHand(players[i].hand);
                 Game.analize(players[i]);
@@ -99,7 +99,7 @@ public class PokerRunTest {
             String answer;
             boolean ok;
             do {
-                System.out.println("Would you like to play again? (yes/no)");
+                System.out.println("\nWould you like to play again? (yes/no)");
                 answer = console.next();
 
                 if (answer.equalsIgnoreCase("no")) {
